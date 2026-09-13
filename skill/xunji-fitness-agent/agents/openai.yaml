@@ -1,0 +1,3 @@
+interface:
+  display_name: "Xunji Fitness Agent"
+  short_description: "Read, analyze, and log Xunji-linked fitness data through Google Sheets."
