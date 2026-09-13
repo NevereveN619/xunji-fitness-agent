@@ -1,6 +1,6 @@
 ---
 name: xunji-fitness-agent
-description: Manage Xunji-linked body, diet, and training data through Google Sheets, including analysis and verified food logging.
+description: Manage Xunji-linked body, diet, and training data through Google Sheets, including verified food logging, fat-loss analysis, Observed TDEE estimation, and weekly fitness reviews.
 ---
 
 # Xunji Fitness Agent
@@ -24,6 +24,36 @@ Use the Xunji-linked workbook as the operational source of truth. Resolve it by 
 - Prefer 7-day or multi-day weight trends over single-day fluctuations when enough data exists.
 - Distinguish strength progression from total training volume and exercise-selection changes.
 - If data is missing, state the gap instead of filling it from memory.
+- Never interpret missing food, training, or weight records as proof that the event did not happen.
+
+### Observed TDEE
+
+When the user asks about maintenance calories, calorie targets, a fat-loss plateau, or why scale loss differs from logged intake, estimate Observed TDEE from recent real-world intake and weight trend when data quality is sufficient.
+
+- Default to a 14-day window; extend to 21-28 days when the trend is noisy.
+- Use weight trend rather than first-day vs last-day scale readings.
+- Approximate: `Observed TDEE = average logged intake - (weight trend kg/day * 7700)`.
+- Treat 7700 kcal/kg as an approximation, not a biological constant.
+- Do not present a precise Observed TDEE when calorie logging is materially incomplete or weight coverage is too sparse. State that the estimate is low-confidence or unavailable.
+- Report a rounded estimate or range and explain the main uncertainty.
+- Do not automatically change the user's calorie target from one short/noisy window; prefer small changes supported by repeated trends.
+
+Read `references/analysis-and-review.md` for the detailed eligibility and confidence rules.
+
+### Weekly Review
+
+When the user asks for a weekly review, weekly summary, “这周怎么样”, or equivalent, compare the latest 7 days with the previous 7 days when available.
+
+Cover:
+- weight trend;
+- average logged calories and data completeness;
+- protein consistency;
+- training frequency and like-for-like progression;
+- Observed TDEE when eligible;
+- the main bottleneck or uncertainty;
+- only 1-2 concrete changes for the next week.
+
+Keep the review decision-oriented. Do not turn it into a long generic fitness lecture. Read `references/analysis-and-review.md` for the review format and safeguards.
 
 ## Reliability
 
@@ -38,3 +68,4 @@ Use the Xunji-linked workbook as the operational source of truth. Resolve it by 
 - `references/data-model.md`
 - `references/workflows.md`
 - `references/safety-and-verification.md`
+- `references/analysis-and-review.md`
