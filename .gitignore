@@ -1,0 +1,10 @@
+.env
+.env.*
+*.log
+*.zip
+.DS_Store
+secrets.*
+config.local.*
+data/
+exports/
+screenshots/
